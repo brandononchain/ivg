@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   IVG Design Token System
+   ============================================ */
+
+:root {
+  /* Primary Colors — cinematic, modern */
+  --ivg-primary: #6C5CE7;
+  --ivg-primary-light: #A29BFE;
+  --ivg-primary-dark: #4834D4;
+
+  /* Accent Colors */
+  --ivg-accent: #00D2D3;
+  --ivg-accent-warm: #FF6B6B;
+  --ivg-accent-success: #00B894;
+  --ivg-accent-warning: #FDCB6E;
+  --ivg-accent-error: #E17055;
+
+  /* Neutral Colors (Dark Theme Default) */
+  --ivg-bg-primary: #0A0A0F;
+  --ivg-bg-secondary: #13131A;
+  --ivg-bg-tertiary: #1C1C27;
+  --ivg-surface: #242435;
+  --ivg-border: #2D2D42;
+  --ivg-text-primary: #F0F0F5;
+  --ivg-text-secondary: #9D9DB5;
+  --ivg-text-muted: #5D5D7A;
+
+  /* Typography */
+  --ivg-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ivg-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --ivg-text-xs: 0.75rem;
+  --ivg-text-sm: 0.875rem;
+  --ivg-text-base: 1rem;
+  --ivg-text-lg: 1.125rem;
+  --ivg-text-xl: 1.25rem;
+  --ivg-text-2xl: 1.5rem;
+  --ivg-text-3xl: 2rem;
+  --ivg-text-4xl: 2.5rem;
+
+  /* Spacing */
+  --ivg-space-1: 0.25rem;
+  --ivg-space-2: 0.5rem;
+  --ivg-space-3: 0.75rem;
+  --ivg-space-4: 1rem;
+  --ivg-space-6: 1.5rem;
+  --ivg-space-8: 2rem;
+  --ivg-space-12: 3rem;
+  --ivg-space-16: 4rem;
+
+  /* Shadows */
+  --ivg-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --ivg-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --ivg-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ivg-shadow-glow: 0 0 20px rgba(108, 92, 231, 0.3);
+
+  /* Border Radius */
+  --ivg-radius-sm: 0.375rem;
+  --ivg-radius-md: 0.5rem;
+  --ivg-radius-lg: 0.75rem;
+  --ivg-radius-xl: 1rem;
+  --ivg-radius-full: 9999px;
+
+  /* Transitions */
+  --ivg-transition-fast: 150ms ease;
+  --ivg-transition-base: 250ms ease;
+  --ivg-transition-slow: 400ms ease;
+}
+
+/* Light Theme Override */
+[data-theme="light"] {
+  --ivg-bg-primary: #FAFAFF;
+  --ivg-bg-secondary: #F0F0F8;
+  --ivg-bg-tertiary: #E8E8F0;
+  --ivg-surface: #FFFFFF;
+  --ivg-border: #D8D8E8;
+  --ivg-text-primary: #1A1A2E;
+  --ivg-text-secondary: #4A4A6A;
+  --ivg-text-muted: #8A8AAA;
+  --ivg-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ivg-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --ivg-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--ivg-font-family);
+  color: var(--ivg-text-primary);
+  background-color: var(--ivg-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   IVG Layout System
+   ============================================ */
+
+.ivg-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 320px;
+  grid-template-rows: 56px 1fr 48px;
+  grid-template-areas:
+    "header header header"
+    "sidebar main panel"
+    "footer footer footer";
+  height: 100vh;
+  background: var(--ivg-bg-primary);
+}
+
+.ivg-header { grid-area: header; }
+.ivg-sidebar { grid-area: sidebar; }
+.ivg-main { grid-area: main; }
+.ivg-panel { grid-area: panel; }
+.ivg-footer { grid-area: footer; }
+
+/* Studio Layout — maximizes canvas */
+.ivg-studio {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  grid-template-rows: 1fr 200px;
+  grid-template-areas:
+    "canvas controls"
+    "timeline controls";
+  gap: var(--ivg-space-2);
+  padding: var(--ivg-space-2);
+}
+
+.ivg-canvas { grid-area: canvas; }
+.ivg-controls { grid-area: controls; }
+.ivg-timeline { grid-area: timeline; }
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .ivg-layout {
+    grid-template-columns: 220px 1fr 280px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ivg-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+  .ivg-sidebar, .ivg-panel { display: none; }
+
+  .ivg-studio {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 200px auto;
+    grid-template-areas:
+      "canvas"
+      "timeline"
+      "controls";
+  }
+}
+
+/* ============================================
+   Component Base Styles
+   ============================================ */
+
+.ivg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ivg-space-2) var(--ivg-space-4);
+  border-radius: var(--ivg-radius-md);
+  font-weight: 500;
+  font-size: var(--ivg-text-sm);
+  cursor: pointer;
+  border: none;
+  transition: all var(--ivg-transition-fast);
+}
+
+.ivg-btn:active { transform: scale(0.96); }
+.ivg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ivg-btn-primary {
+  background: var(--ivg-primary);
+  color: white;
+}
+.ivg-btn-primary:hover { background: var(--ivg-primary-light); }
+
+.ivg-btn-secondary {
+  background: var(--ivg-surface);
+  color: var(--ivg-text-primary);
+  border: 1px solid var(--ivg-border);
+}
+.ivg-btn-secondary:hover { border-color: var(--ivg-primary); }
+
+/* Generate Button — special treatment */
+.ivg-generate-btn {
+  background: linear-gradient(135deg, var(--ivg-primary), var(--ivg-accent));
+  color: white;
+  font-weight: 600;
+  padding: var(--ivg-space-3) var(--ivg-space-8);
+  border-radius: var(--ivg-radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.ivg-generate-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--ivg-transition-fast);
+}
+
+.ivg-generate-btn:hover::after { opacity: 1; }
+
+/* Input Styles */
+.ivg-input {
+  width: 100%;
+  padding: var(--ivg-space-3) var(--ivg-space-4);
+  background: var(--ivg-surface);
+  border: 1px solid var(--ivg-border);
+  border-radius: var(--ivg-radius-md);
+  color: var(--ivg-text-primary);
+  font-size: var(--ivg-text-base);
+  transition: border-color var(--ivg-transition-fast);
+}
+
+.ivg-input:focus {
+  outline: none;
+  border-color: var(--ivg-primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+.ivg-input::placeholder { color: var(--ivg-text-muted); }
+
+/* Card Styles */
+.ivg-card {
+  background: var(--ivg-surface);
+  border: 1px solid var(--ivg-border);
+  border-radius: var(--ivg-radius-lg);
+  padding: var(--ivg-space-6);
+  box-shadow: var(--ivg-shadow-sm);
+}
+
+/* ============================================
+   Progress & Generation Animations
+   ============================================ */
+
+@keyframes ivg-progress-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--ivg-primary); }
+  50% { box-shadow: 0 0 20px var(--ivg-primary), 0 0 40px rgba(108, 92, 231, 0.3); }
+}
+
+.ivg-progress-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--ivg-primary), var(--ivg-accent));
+  border-radius: var(--ivg-radius-full);
+  animation: ivg-progress-glow 2s ease-in-out infinite;
+  transition: width var(--ivg-transition-base);
+}
+
+@keyframes ivg-celebrate {
+  0% { transform: scale(0); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.ivg-celebration {
+  animation: ivg-celebrate 600ms ease-out forwards;
+  pointer-events: none;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
