@@ -1,26 +1,10 @@
 import React, { memo, useState, useCallback } from 'react';
 
-interface GenerationParams {
-  pipeline: string;
-  numFrames: number;
-  height: number;
-  width: number;
-  qualityPreset: 'production' | 'high_quality' | 'preview' | 'rapid';
-}
-
 interface PromptEditorProps {
-  onSubmit: (prompt: string, params: GenerationParams) => void;
+  onSubmit: (prompt: string) => void;
   maxWords?: number;
   isGenerating?: boolean;
 }
-
-const DEFAULT_PARAMS: GenerationParams = {
-  pipeline: 'TI2VidTwoStagesPipeline',
-  numFrames: 121,
-  height: 512,
-  width: 768,
-  qualityPreset: 'production',
-};
 
 export const PromptEditor = memo<PromptEditorProps>(({
   onSubmit,
@@ -34,7 +18,7 @@ export const PromptEditor = memo<PromptEditorProps>(({
 
   const handleSubmit = useCallback(() => {
     if (canSubmit) {
-      onSubmit(prompt.trim(), DEFAULT_PARAMS);
+      onSubmit(prompt.trim());
     }
   }, [prompt, canSubmit, onSubmit]);
 

@@ -1,20 +1,9 @@
 import React, { memo, useCallback } from 'react';
-
-interface Parameters {
-  numFrames: number;
-  height: number;
-  width: number;
-  cfgScale: number;
-  stgScale: number;
-  inferenceSteps: number;
-  seed: string;
-  spatialUpsampling: boolean;
-  temporalUpsampling: boolean;
-}
+import type { GenerationParams, CameraLoRA } from '../types';
 
 interface ParameterPanelProps {
-  params: Parameters;
-  onChange: (params: Parameters) => void;
+  params: GenerationParams;
+  onChange: (params: GenerationParams) => void;
 }
 
 const CAMERA_LORAS = [
@@ -29,7 +18,7 @@ const CAMERA_LORAS = [
 
 export const ParameterPanel = memo<ParameterPanelProps>(({ params, onChange }) => {
   const update = useCallback(
-    (key: keyof Parameters, value: number | string | boolean) => {
+    (key: keyof GenerationParams, value: number | string | boolean | null) => {
       onChange({ ...params, [key]: value });
     },
     [params, onChange]
@@ -70,7 +59,7 @@ export const ParameterPanel = memo<ParameterPanelProps>(({ params, onChange }) =
           ].map((res) => (
             <button
               key={res.label}
-              onClick={() => { update('width', res.w); update('height', res.h); }}
+              onClick={() => onChange({ ...params, width: res.w, height: res.h })}
               className={`flex-1 px-3 py-2 text-xs rounded-md border transition-all ${
                 params.width === res.w && params.height === res.h
                   ? 'border-[var(--ivg-primary)] bg-[rgba(108,92,231,0.1)] text-[var(--ivg-text-primary)]'
@@ -166,9 +155,14 @@ export const ParameterPanel = memo<ParameterPanelProps>(({ params, onChange }) =
           {CAMERA_LORAS.map((lora) => (
             <button
               key={lora.id}
-              className="px-3 py-1.5 text-xs rounded-full border transition-all
-                         border-[var(--ivg-border)] text-[var(--ivg-text-muted)]
-                         hover:border-[var(--ivg-primary)] hover:text-[var(--ivg-text-primary)]"
+              onClick={() =>
+                update('cameraLoRA', params.cameraLoRA === lora.id ? null : lora.id)
+              }
+              className={`px-3 py-1.5 text-xs rounded-full border transition-all ${
+                params.cameraLoRA === lora.id
+                  ? 'border-[var(--ivg-primary)] bg-[rgba(108,92,231,0.15)] text-[var(--ivg-text-primary)]'
+                  : 'border-[var(--ivg-border)] text-[var(--ivg-text-muted)] hover:border-[var(--ivg-primary)] hover:text-[var(--ivg-text-primary)]'
+              }`}
             >
               {lora.label}
             </button>
