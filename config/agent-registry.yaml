@@ -1,0 +1,131 @@
+# ============================================
+# IVG Agent Registry
+# ============================================
+# Central registry of all agents in the IVG platform.
+# Defines agent metadata, capabilities, and routing relationships.
+
+platform:
+  name: IVG — Infinite Video Generation
+  model: Lightricks/LTX-2.3
+  goal: Generate an infinite amount of high quality and longest duration videos
+
+# Master Layer — Top-level control
+master:
+  master-agent:
+    path: agents/master/master-agent.md
+    role: Entry point for all user input — refines prompts and routes to sub-agents
+    routes_to:
+      - master-orchestrator
+      - master-video-generation
+      - design-image-prompt-engineer
+    priority: 1
+
+  master-orchestrator:
+    path: agents/orchestrator/master-orchestrator.md
+    role: Pipeline coordinator for multi-agent workflows
+    routes_to:
+      - content-video-scriptwriter
+      - design-visual-storyteller
+      - design-brand-guardian
+      - design-image-prompt-engineer
+      - design-inclusive-visuals-specialist
+      - master-video-generation
+    priority: 2
+
+  master-video-generation:
+    path: agents/video-generation/master-video-generation.md
+    role: Direct LTX-2 interface — pipeline execution, upsampling, infinite chaining
+    routes_to: []
+    priority: 3
+
+# Content Agents
+content:
+  content-video-scriptwriter:
+    path: agents/content/content-video-scriptwriter.md
+    role: Script writing with LTX-2 prompt integration
+    routes_to:
+      - design-image-prompt-engineer
+    priority: 4
+
+# Design Agents
+design:
+  design-brand-guardian:
+    path: agents/design/design-brand-guardian.md
+    role: Brand identity and consistency enforcement
+    routes_to: []
+    priority: 5
+
+  design-image-prompt-engineer:
+    path: agents/design/design-image-prompt-engineer.md
+    role: LTX-2 optimized prompt crafting
+    routes_to:
+      - master-video-generation
+    priority: 5
+
+  design-inclusive-visuals-specialist:
+    path: agents/design/design-inclusive-visuals-specialist.md
+    role: Diversity, bias detection, and representation auditing
+    routes_to: []
+    priority: 5
+
+  design-ui-designer:
+    path: agents/design/design-ui-designer.md
+    role: Visual design system and component library
+    routes_to:
+      - engineering-frontend-developer
+    priority: 5
+
+  design-ux-architect:
+    path: agents/design/design-ux-architect.md
+    role: Information architecture and layout frameworks
+    routes_to:
+      - design-ui-designer
+      - engineering-frontend-developer
+    priority: 5
+
+  design-ux-researcher:
+    path: agents/design/design-ux-researcher.md
+    role: User research and usability testing
+    routes_to:
+      - design-ux-architect
+    priority: 5
+
+  design-visual-storyteller:
+    path: agents/design/design-visual-storyteller.md
+    role: Story arcs, scene composition, and narrative design
+    routes_to:
+      - design-image-prompt-engineer
+      - content-video-scriptwriter
+    priority: 5
+
+  design-whimsy-injector:
+    path: agents/design/design-whimsy-injector.md
+    role: Micro-interactions, delight, and playful UI patterns
+    routes_to:
+      - engineering-frontend-developer
+    priority: 5
+
+# Engineering Agents
+engineering:
+  engineering-frontend-developer:
+    path: agents/engineering/engineering-frontend-developer.md
+    role: React/Next.js frontend implementation
+    routes_to: []
+    priority: 6
+
+# Routing Rules
+routing:
+  default_flow: master-agent → master-orchestrator → sub-agents → master-video-generation
+  simple_generation: master-agent → design-image-prompt-engineer → master-video-generation
+  scripted_production: master-agent → master-orchestrator → [scriptwriter, storyteller, brand-guardian, prompt-engineer, inclusive-visuals] → master-video-generation
+  infinite_chain: master-agent → master-orchestrator → [storyteller, scriptwriter, prompt-engineer] → master-video-generation (loop)
+
+# LTX-2 Pipeline Mapping
+pipelines:
+  production: TI2VidTwoStagesPipeline
+  high_quality: TI2VidTwoStagesHQPipeline
+  rapid: DistilledPipeline
+  audio: A2VidPipelineTwoStage
+  style_transfer: ICLoraPipeline
+  interpolation: KeyframeInterpolationPipeline
+  retake: RetakePipeline

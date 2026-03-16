@@ -1,0 +1,42 @@
+[project]
+name = "ivg"
+version = "0.1.0"
+description = "Infinite Video Generation Platform — powered by LTX-2"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+
+dependencies = [
+    "torch~=2.7",
+    "torchaudio",
+    "einops",
+    "numpy",
+    "transformers>=4.52",
+    "safetensors",
+    "accelerate",
+    "scipy>=1.14",
+    "av",
+    "tqdm",
+    "pillow",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.29",
+    "websockets>=12.0",
+    "pyyaml>=6.0",
+    "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+xformers = ["xformers"]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
